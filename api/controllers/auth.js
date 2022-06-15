@@ -1,10 +1,12 @@
 import User from "../models/User.js"
 import bcrypt from "bcrypt"
+// const bcrypt = require('bcrypt')
 
 export const register = async (req, res, next) => {
     try{
 
-        const salt = bcrypt.genSaltSync(10);
+        const saltRounds = 10
+        const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(req.body.password, salt);
 
         const newUser = new User({
@@ -22,18 +24,20 @@ export const register = async (req, res, next) => {
 }
 
 
+
 export const login = async (req, res, next) => {
-    try{
-        const newUser = new User({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password,
-        })
+    try {
 
-        await newUser.save()
-        res.status(200).send("User logged in")
+      const user = await User.findOne({ username: req.body.username });
+      if (!user) return next(createError(404, "User not found!"));
+  
+      const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password)
+      if (!isPasswordCorrect) return next(createError(400, "Wrong password or username!"));
+  
+      
+     
 
-    }catch(err){
-        next(err)
+    } catch (err) {
+      next(err);
     }
-}
+  };
