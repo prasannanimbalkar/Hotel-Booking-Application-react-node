@@ -37,6 +37,7 @@ export const login = async (req, res, next) => {
       if (!isPasswordCorrect) return next(createError(400, "Wrong password or username!"));
   
       
+      
       //JWT Authentication
 
       //jwt hides user info and sends datain cookies
