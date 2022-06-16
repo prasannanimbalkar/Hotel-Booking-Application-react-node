@@ -7,6 +7,10 @@ import {
     getHotels,
     updateHotel,
   } from "../controllers/hotel.js";
+  import {verifyAdmin} from "../utils/verifyTaken.js"
+
+
+
 
 const router = express.Router();
 
@@ -27,7 +31,7 @@ const router = express.Router();
 //     }
 // })
 
-router.post("/", createHotel )
+router.post("/", verifyAdmin, createHotel);
 
 
 
@@ -41,7 +45,7 @@ router.post("/", createHotel )
 //     }
 // })
 
-router.put("/:id", updateHotel)
+router.put("/:id", verifyAdmin, updateHotel);
 
 
 // //DELETE
@@ -54,7 +58,7 @@ router.put("/:id", updateHotel)
 //     }
 // })
 
-router.delete("/:id", deleteHotel)
+router.delete("/:id", verifyAdmin, deleteHotel);
 
 
 // //GET
@@ -67,7 +71,7 @@ router.delete("/:id", deleteHotel)
 //     }
 // })
 
-router.get("/:id", getHotel)
+router.get("/find/:id", getHotel);
 
 
 // //GET ALL
