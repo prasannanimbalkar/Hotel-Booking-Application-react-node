@@ -2,6 +2,8 @@ import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser";
+import cors from "cors";
+
 
 
 import authRoute from "./routes/auth.js"
@@ -45,6 +47,7 @@ mongoose.connection.on("connected", () => {
 
 // middleware 
 
+app.use(cors())  //we can use cors insted of using proxy in package.json
 app.use(cookieParser())
 app.use(express.json())
 
